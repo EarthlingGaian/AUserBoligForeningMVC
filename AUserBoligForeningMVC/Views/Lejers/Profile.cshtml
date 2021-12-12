@@ -75,7 +75,7 @@
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                 <div>
-                                    @Html.Partial("~/Views/Lejers/PartialViews/_Overview.cshtml");
+                                    @Html.Partial("~/Views/Lejers/PartialViews/_Overview.cshtml")
 
                                 </div>
 
@@ -86,7 +86,7 @@
 
 
                                 <div>
-                                    @Html.Partial("~/Views/Lejers/PartialViews/EditBrugerSettings.cshtml");
+                                    @Html.Partial("~/Views/Lejers/PartialViews/EditBrugerSettings.cshtml")
 
                                 </div>
 
@@ -121,7 +121,11 @@
                                 </div>
 
                             </div>
-                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                                <div>
+                                    @Html.Partial("~/Views/Lejers/PartialViews/_Bills.cshtml")
+                                </div>
+                            </div>
 
                         </div>
                     </div>

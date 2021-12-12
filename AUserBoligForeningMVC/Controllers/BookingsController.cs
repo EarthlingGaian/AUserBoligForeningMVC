@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AUserBoligForeningMVC.Data;
 using AUserBoligForeningMVC.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
 
 namespace AUserBoligForeningMVC.Controllers
 {
@@ -56,8 +57,11 @@ namespace AUserBoligForeningMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(model);
-                await _context.SaveChangesAsync();
+                if (DateTime.ParseExact(model.Date, "M/d/yyyy", CultureInfo.InvariantCulture) > DateTime.Now)
+                {
+                    _context.Add(model);
+                    await _context.SaveChangesAsync();
+                }
 
             }
             return Json(booking);
