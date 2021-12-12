@@ -1,0 +1,123 @@
+﻿@model AUserBoligForeningMVC.Models.Lejer
+
+
+
+<div class="row">
+
+    <form asp-action="EditBrugerSettings">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+
+        <h2><b>User Settings</b></h2>
+
+        <p9>Ændringer på denne side kan have virkelige konsekvenser, som beboer</p9>
+
+        <br />
+        <br />
+        <hr />
+
+
+
+        <h6>Profil instillinger</h6>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+
+                    <label>Fornavn:</label>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <input asp-for="Fornavn" value="@Model.Fornavn" placeholder="Fornavn" />
+                    <span asp-validation-for="Fornavn" class="text-danger"></span>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Efternavn:</label>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+
+                    <input asp-for="Efternavn" value="@Model.Efternavn" placeholder="Efternavn" />
+                    <span asp-validation-for="Efternavn" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <hr />
+
+
+
+        <h6>Person Data</h6>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Alder:</label>
+
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="form-group">
+
+                    <input asp-for="Alder" value="@Model.Alder" placeholder="Bruger Navn" />
+                    <span asp-validation-for="Alder" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>TlfNummer:</label>
+
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="form-group">
+
+                    <input asp-for="TlfNr" value="@Model.TlfNr" placeholder="Telefon nummer" />
+                    <span asp-validation-for="TlfNr" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        
+
+
+
+
+
+
+        <hr />
+        <br />
+        <br />
+        <div class="form-group">
+            <br />
+            <input type="submit" style="text-align:right" class="btn btn-success btn-sm" id="Button1" value="Gem ændringer" />
+
+        </div>
+
+
+
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

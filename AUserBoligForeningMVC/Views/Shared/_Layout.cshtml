@@ -1,0 +1,89 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AUserBoligForeningMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <div class="container">
+                <a href="~/Home" class="navbar-brand">UNIK BoligForening</a>
+
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+
+                <div class="collapse navbar-collapse" id="navmenu">
+                    <ul class="navbar-nav ml-auto">
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+
+                            <li class="nav-item">
+                                <a href="~/Identity/Account/Register" class="nav-link">Ny bruger</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="~/Lejers/SignUp" class="nav-link">Ny Lejer</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="~/Home" class="nav-link">Ny bolig</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="~/Home" class="nav-link">Søg</a>
+                            </li>
+
+
+
+                        }
+                        else if(SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a href="~/Bookings/Index" class="nav-link">Kalender</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="~/Posts/Index" class="nav-link">Chat</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="~/DokumentArkivs/Index" class="nav-link">Dokumentarkiv</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="~/Lejers/Profile" class="nav-link">Profil</a>
+                            </li>
+
+                        }
+
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - AUserBoligForeningMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

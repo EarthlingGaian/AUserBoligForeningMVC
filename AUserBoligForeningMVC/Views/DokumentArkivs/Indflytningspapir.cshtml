@@ -1,0 +1,18 @@
+﻿@model AUserBoligForeningMVC.Models.DokumentArkiv
+
+@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<center>
+    <h1>Indflytningspapir</h1>
+    <p>Her kan du se dit indflytningspapir, har du nogen spørgsmål er, du velkommen til at kontakte os</p>
+</center>
+<hr />
+<br />
+<embed src="~/img/@Model.IndflytningsPapir.ToString()" type="application/pdf" height="600px" width="100%">
+
+<div>
+    <a asp-action="~/DokumentArkivs/Index">Back to List</a>
+</div>
+

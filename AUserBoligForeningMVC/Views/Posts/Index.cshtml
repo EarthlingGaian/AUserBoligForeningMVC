@@ -1,0 +1,112 @@
+﻿@model IEnumerable<AUserBoligForeningMVC.Models.Post>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+<br />
+<h1 style="text-align:center">Chat</h1>
+<p style="text-align:center">Be kind and respectfull when writting, please</p>
+
+<div class="card">
+    <div class="card-body">
+        <div class="scrollable">
+
+            @foreach (var item in Model)
+            {
+
+                if (item.AuthorName == User.Identity.Name)
+                {
+                    <div class="row" id="postIndexContentCurrentUser">
+                        <div class="col-md-9 ">
+                           
+                            <div class="postContent postContentContainerCurrentUser">
+                                @Html.Raw(item.PostContent)
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-3 postAuthorContainer">
+                            <a asp-controller="Posts" asp-action="Detail" asp-route-id="@item.AuthorId">
+                                @item.AuthorName
+                            </a>
+
+                            <span class="postDate">
+                                @item.Created
+                            </span>
+                            <a text-align="right" asp-action="Delete" asp-route-id="@item.Id">Delete </a>
+                            
+                            @*@if (item.isadmin)
+        {
+            <span class="isAdmin smaller"> Admin</span>
+        }*@
+
+                        </div>
+                    </div>
+
+
+                }
+                else
+                {
+                    <div class="row" id="postIndexContent">
+                        <div class="col-md-3 postAuthorContainer">
+                            <a asp-controller="Posts" asp-action="Detail" asp-route-id="@item.AuthorId">
+                                @item.AuthorName
+                            </a>
+
+                            <span class="postDate">
+                                @item.Created
+                            </span>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a text-align="right" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            }
+
+                            @*@if (item.isadmin)
+                            {
+                                <span class="isAdmin smaller"> Admin</span>
+                            }*@
+
+                        </div>
+                        <div class="col-md-9 postContentContainer">
+                            
+                            <div class="postContent">
+                                @Html.Raw(item.PostContent)
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+                <br />
+
+            }
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+<div class="row">
+    <div class="col">
+        <br />
+        <br />
+        <div class="row">
+        <div class="col">
+           
+              
+           
+                <div class="form-group">
+                    <a href="~/posts/Create">
+                        <input type="submit" class="btn btn-primary btn-block btn-md" id="Button1" value="Create Post" />
+                        
+                    </a> 
+                </div>
+               
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

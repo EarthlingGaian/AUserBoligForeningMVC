@@ -1,0 +1,171 @@
+﻿@model AUserBoligForeningMVC.Models.Lejer
+
+@{
+    ViewData["Title"] = "SignUp";
+}
+<body>
+    <form asp-action="SignUp">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <br />
+                    <br />
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col">
+                                    <center>
+                                        <img width="100" src="~/img/userProfileIcon.PNG" />
+
+                                    </center>
+
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <center>
+                                        <h5>Lejer Registrering</h5>
+
+                                    </center>
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <hr />
+
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row">
+
+                                <div class="col">
+                                    <label asp-for="Email" class="control-label"></label>
+                                    <input asp-for="Email" class="form-control" placeholder="Bruger mail" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <hr />
+                            <br />
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Fornavn" class="control-label"></label>
+                                        <input asp-for="Fornavn" class="form-control" placeholder="Fornavn" />
+                                        <span asp-validation-for="Fornavn" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Efternavn" class="control-label"></label>
+                                        <input asp-for="Efternavn" class="form-control" placeholder="Efternavn" />
+                                        <span asp-validation-for="Efternavn" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="TlfNr" class="control-label"></label>
+                                        <input asp-for="TlfNr" class="form-control" placeholder="Telefon nummer" />
+                                        <span asp-validation-for="TlfNr" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Alder" class="control-label"></label>
+                                        <input asp-for="Alder" class="form-control" placeholder="Alder" />
+                                        <span asp-validation-for="Alder" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="PostNr" class="control-label"></label>
+                                        <input asp-for="PostNr" class="form-control" placeholder="Postnummer" />
+                                        <span asp-validation-for="PostNr" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="By" class="control-label"></label>
+                                        <input asp-for="By" class="form-control" placeholder="By" />
+                                        <span asp-validation-for="By" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label asp-for="Adresse" class="control-label"></label>
+                                    <input asp-for="Adresse" class="form-control" placeholder="Adresse" />
+                                    <span asp-validation-for="Adresse" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <br />
+                            <br />
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success btn-block btn-lg" id="Button1" value="Registrer" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+                    <a href="Home"> << Back to home </a>
+                    <br />
+                    <br />
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </form>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+
+</body>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

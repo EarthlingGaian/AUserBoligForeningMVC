@@ -1,0 +1,123 @@
+﻿@model AUserBoligForeningMVC.Models.Lejer
+
+<div class="row">
+    <h2><b>Overview</b></h2>
+    <br />
+    <p9>Her får du et overblik over dine informationer og notefikationer fra bla. bestyrelsen og andre beboer</p9>
+    <br />
+
+    <br />
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <p style="font-size: 12px">User Settings</p>
+                <h9><b>User Information</b></h9>
+                <p style="font-size: 10px">Du kan ændrer dit brugernavn, email og password</p>
+                <hr />
+
+                <dl class="row">
+                    <dt class="col-lg-4">
+                        @Html.DisplayNameFor(model => model.Fornavn)
+
+                    </dt>
+                    <dd class="col-lg-6">
+                        @Html.DisplayFor(model => model.Fornavn)
+                    </dd>
+
+                </dl>
+
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Alder)
+                    </dt>
+                    <dd class="col-sm-6">
+                        @Html.DisplayFor(model => model.Alder)
+                    </dd>
+
+                </dl>
+
+
+
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+                    <dd class="col-sm-6">
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+
+                </dl>
+
+
+               
+
+                <hr />
+                <br />
+                <br />
+                <a style="text-decoration:none;font-size: 12px" href="#"> See more in user settings </a>
+                <br />
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <p style="font-size: 12px">Communication</p>
+                <h9><b>Notifications</b></h9>
+                <p style="font-size: 10px">Her får du notefikation om beskeder fra bla. bestyrelsen og andre beboer</p>
+                <hr />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+
+                <br />
+                <br />
+                <br />
+                <a style="text-decoration:none;font-size: 12px" href="#"> See more in about resistance messages in forum</a>
+                <br />
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<br />
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <p style="font-size: 12px">Economy</p>
+                <h9><b>Bills and BS agreements</b></h9>
+                <p style="font-size: 10px">Her får du notefikation om manglende betalte regninger og bs-aftaler</p>
+                <hr />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <a style="text-decoration:none;font-size: 12px" href=""> See more in bills and BS agreements</a>
+                <br />
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
