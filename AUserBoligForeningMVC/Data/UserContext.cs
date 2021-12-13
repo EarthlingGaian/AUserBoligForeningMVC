@@ -22,6 +22,7 @@ namespace AUserBoligForeningMVC.Data
         public DbSet<Models.DokumentArkiv> dokumentArkivs { get; set; }
         public DbSet<Models.Regninger> regningers { get; set; }
         public DbSet<AUserBoligForeningMVC.Models.Lejligheder> Lejligheder { get; set; }
+        public DbSet<AUserBoligForeningMVC.Models.CreateDocumentViewModel> CreateDocumentViewModel { get; set; }
     }
     
 }

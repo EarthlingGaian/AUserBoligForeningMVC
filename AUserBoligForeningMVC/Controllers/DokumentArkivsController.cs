@@ -52,6 +52,42 @@ namespace AUserBoligForeningMVC.Controllers
 
             return View(pdfFile);
         }
+
+
+        public async Task<IActionResult> LejekontraktCreate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var dokumentArkiv = await _context.lejers
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (dokumentArkiv == null)
+            {
+                return NotFound();
+            }
+
+            return View(dokumentArkiv);
+        }
+
+        // POST: DokumentArkivs/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LejekontraktCreate(int? id, DokumentArkiv dokumentArkiv)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(dokumentArkiv);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(dokumentArkiv);
+        }
+
+
         // GET: DokumentArkivs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -69,6 +105,8 @@ namespace AUserBoligForeningMVC.Controllers
 
             return View(dokumentArkiv);
         }
+
+
 
         // GET: DokumentArkivs/Create
         public IActionResult Create()

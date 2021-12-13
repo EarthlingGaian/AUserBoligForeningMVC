@@ -13,30 +13,32 @@
 </center>
 
 <hr />
+<h4>Upload filer</h4>
+<br />
 <div class="row">
     <div class="col-md-4">
         <form enctype="multipart/form-data" asp-action="UploadDokumenter">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
-                <div class="form-group">
-                    <label asp-for="LejeKontrakt" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="LejeKontrakt" class="form-control custom-file-input" />
-                        <label class="custom-file-label">Vælg Fil...</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="IndflytningsPapir" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="IndflytningsPapir" class="form-control custom-file-input" />
-                        <label class="custom-file-label">Vælg Fil...</label>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group">
+                <label asp-for="LejeKontrakt" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="LejeKontrakt" class="form-control custom-file-input" />
+                    <label class="custom-file-label">Vælg Fil...</label>
                 </div>
-          
+            </div>
+            <div class="form-group">
+                <label asp-for="IndflytningsPapir" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="IndflytningsPapir" class="form-control custom-file-input" />
+                    <label class="custom-file-label">Vælg Fil...</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
             @section Scripts{
                 <script>
                     $(document).ready(function () {
@@ -50,8 +52,26 @@
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Tilbage til Oversigt</a>
 </div>
+<br />
+<hr />
+<h4>Opret filer</h4>
+<br />
+<p>Skab og download en pdf-fil for lejekontrakt</p>
+
+<a href="~/DokumentArkivs/LejekontraktCreate">
+    <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Opret Lejekontrakt" />
+</a>
+<br />
+<br />
+<p>Skab og download en pdf-fil for Indflytningspapirer</p>
+
+<a href="~/DokumentArkivs/IndflytningspapirerCreate">
+    <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Opret Indflytningspapirer" />
+</a>
+<br />
+<br />
+
 
