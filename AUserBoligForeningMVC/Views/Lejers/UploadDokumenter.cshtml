@@ -4,47 +4,54 @@
     ViewData["Title"] = "UploadDokumenter";
 }
 
-<h1>UploadDokumenter</h1>
+<br />
+<center>
+    <b><h1>Upload Dokumenter til Dokumentarkiv</h1></b>
+    <br />
+    <p>Husk at du skal indsætte filer i begge input felter før det virker</p>
 
-<h4>DokumentArkiv</h4>
+</center>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form enctype="multipart/form-data" asp-action="UploadDokumenter">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="LejeKontrakt" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="LejeKontrakt" class="form-control custom-file-input" />
-                    <label class="custom-file-label">Vælg Fil...</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="IndflytningsPapir" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="IndflytningsPapir" class="form-control custom-file-input" />
-                    <label class="custom-file-label">Vælg Fil...</label>
-                </div>
-            </div>
            
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-            @section Scripts{ 
-                        <script>
-                            $(document).ready(function () {
-                                $('.custom-file-input').on("change", function () {
-                                    var filename = $(this).val().split("\\").pop();
-                                    $(this).next('.custom-file-label').html(filename);
-                                });
-                            });
-                        </script>
+                <div class="form-group">
+                    <label asp-for="LejeKontrakt" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="LejeKontrakt" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Vælg Fil...</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IndflytningsPapir" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="IndflytningsPapir" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Vælg Fil...</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+          
+            @section Scripts{
+                <script>
+                    $(document).ready(function () {
+                        $('.custom-file-input').on("change", function () {
+                            var filename = $(this).val().split("\\").pop();
+                            $(this).next('.custom-file-label').html(filename);
+                        });
+                    });
+                </script>
             }
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Tilbage til Oversigt</a>
 </div>
 

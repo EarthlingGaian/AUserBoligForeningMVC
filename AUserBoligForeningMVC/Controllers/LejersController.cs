@@ -55,24 +55,35 @@ namespace AUserBoligForeningMVC.Controllers
                     model.LejeKontrakt.CopyTo(new FileStream(filePathLejeKontrakt, FileMode.Create));
 
 
+                  
+
+                }
+                if (model.IndflytningsPapir != null)
+                {
+                    string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img"); //output at path as string
+
                     //save indlytningspapir
                     uniqueFileNameIndflytningsPapir = Guid.NewGuid().ToString() + "_" + model.IndflytningsPapir.FileName;
                     string filePathIndflytningsPapir = Path.Combine(uploadFolder, uniqueFileNameIndflytningsPapir);
 
-                    model.LejeKontrakt.CopyTo(new FileStream(filePathIndflytningsPapir, FileMode.Create));
+                    model.IndflytningsPapir.CopyTo(new FileStream(filePathIndflytningsPapir, FileMode.Create));
+
                 }
 
-                var newDokArkiv = new DokumentArkiv
+                if (model.LejeKontrakt != null && model.IndflytningsPapir != null)
                 {
-                    LejeKontrakt = uniqueFileNameLejeKontrakt,
-                    IndflytningsPapir = uniqueFileNameIndflytningsPapir,
-                    BeboerMail = lejerMail
-                    
-                };
+                    //save to db
+                    var newDokArkiv = new DokumentArkiv
+                    {
+                        LejeKontrakt = uniqueFileNameLejeKontrakt,
+                        IndflytningsPapir = uniqueFileNameIndflytningsPapir,
+                        BeboerMail = lejerMail
 
-                _context.Add(newDokArkiv);
-                await _context.SaveChangesAsync();
+                    };
 
+                    _context.Add(newDokArkiv);
+                    await _context.SaveChangesAsync();
+                }
             }
                 return View();
         }
@@ -270,56 +281,56 @@ namespace AUserBoligForeningMVC.Controllers
         //    return View(lejer);
         //}
 
-        //// GET: Lejers/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Lejers/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var lejer = await _context.Lejer.FindAsync(id);
-        //    if (lejer == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(lejer);
-        //}
+            var lejer = await _context.lejers.FindAsync(id);
+            if (lejer == null)
+            {
+                return NotFound();
+            }
+            return View(lejer);
+        }
 
-        //// POST: Lejers/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Fornavn,Efternavn,Adresse,PostNr,Email,TlfNr,By,Alder")] Lejer lejer)
-        //{
-        //    if (id != lejer.Id)
-        //    {
-        //        return NotFound();
-        //    }
+        // POST: Lejers/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Lejer lejer)
+        {
+            if (id != lejer.Id)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(lejer);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!LejerExists(lejer.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(lejer);
-        //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(lejer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LejerExists(lejer.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(lejer);
+        }
 
         // GET: Lejers/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -346,7 +357,12 @@ namespace AUserBoligForeningMVC.Controllers
         {
             var lejer = await _context.lejers.FindAsync(id);
             _context.lejers.Remove(lejer);
+            
+
+            var dokument = await _context.dokumentArkivs.Where(m => m.BeboerMail == lejer.Email).FirstOrDefaultAsync();
+            _context.dokumentArkivs.Remove(dokument);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

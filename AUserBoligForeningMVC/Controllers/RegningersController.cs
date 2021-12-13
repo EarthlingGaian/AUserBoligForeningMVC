@@ -25,7 +25,7 @@ namespace AUserBoligForeningMVC.Controllers
         }
 
         // GET: Regningers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -77,12 +77,19 @@ namespace AUserBoligForeningMVC.Controllers
 
             }
 
-            var regninger = await _context.regningers.Where(a => a.BeboerMail == mail).ToListAsync();
-
+            var regninger = await _context.regningers.Where(a => a.BeboerMail == mail).Where(a => search == null || a.Calendar.Contains(search) || a.Date.Contains(search)).ToListAsync();
+             
             return View(regninger);
         }
 
-        // GET: Regningers/Details/5
+
+        public async Task<IActionResult> AdminIndex(string search)
+        {             
+            return View(await _context.regningers.Where(a => a.BeboerMail.Contains(search) || search == null || a.Calendar.Contains(search) || a.Date.Contains(search)).ToListAsync());
+        }
+
+
+            // GET: Regningers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -168,7 +175,7 @@ namespace AUserBoligForeningMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AdminIndex));
             }
             return View(regninger);
         }
@@ -199,7 +206,7 @@ namespace AUserBoligForeningMVC.Controllers
             var regninger = await _context.regningers.FindAsync(id);
             _context.regningers.Remove(regninger);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AdminIndex));
         }
 
         private bool RegningerExists(int id)

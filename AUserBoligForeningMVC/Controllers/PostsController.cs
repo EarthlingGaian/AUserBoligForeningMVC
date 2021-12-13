@@ -36,6 +36,8 @@ namespace AUserBoligForeningMVC.Controllers
             DateTime curdateDelete = DateTime.Now;
             curdateDelete = curdateDelete.AddDays(-1095); //3 år
 
+        
+
 
             foreach (var item in posts)
             {
@@ -46,6 +48,7 @@ namespace AUserBoligForeningMVC.Controllers
                     AuthorName = item.AuthorName,
                     Created = item.Created,
                     PostContent = item.PostContent,
+                    isAdmin = item.isAdmin
                 };
                 modelList.Add(model);
             }
@@ -90,14 +93,20 @@ namespace AUserBoligForeningMVC.Controllers
             string mail = user?.Email;
             
             var bruger = _context.lejers.Where(a => a.Email == mail).FirstOrDefault();
-
+           
+            bool IsAdmin = false;
+            if (User.IsInRole("Admin"))
+            {
+                IsAdmin = true;
+            }
             Post model = new Post
             {
                 Id = post.Id,
                 AuthorId = userId,
                 AuthorName = mail,
                 Created = DateTime.Now,
-                PostContent = post.PostContent
+                PostContent = post.PostContent,
+                isAdmin = IsAdmin
             };
 
             if (ModelState.IsValid)

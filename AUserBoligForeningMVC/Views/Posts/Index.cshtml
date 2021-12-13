@@ -36,10 +36,10 @@
                             </span>
                             <a text-align="right" asp-action="Delete" asp-route-id="@item.Id">Delete </a>
                             
-                            @*@if (item.isadmin)
-        {
-            <span class="isAdmin smaller"> Admin</span>
-        }*@
+                            @if (item.isAdmin)
+                            {
+                                <span class="isAdmin smaller"> Admin</span>
+                            }
 
                         </div>
                     </div>
@@ -63,10 +63,10 @@
                                 <a text-align="right" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             }
 
-                            @*@if (item.isadmin)
+                            @if (item.isAdmin)
                             {
                                 <span class="isAdmin smaller"> Admin</span>
-                            }*@
+                            }
 
                         </div>
                         <div class="col-md-9 postContentContainer">

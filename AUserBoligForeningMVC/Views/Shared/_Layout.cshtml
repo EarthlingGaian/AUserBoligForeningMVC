@@ -33,21 +33,24 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="~/Lejers/Index" class="nav-link">Ny Lejer</a>
+                                <a href="~/Lejers/Index" class="nav-link">Lejer</a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="~/Lejligheders/Index" class="nav-link">Ny bolig</a>
+                                <a href="~/Lejligheders/Index" class="nav-link">Bolig</a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="~/Home" class="nav-link">Søg</a>
+                                <a href="~/Regningers/AdminIndex" class="nav-link">Regninger</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="~/Posts/Index" class="nav-link">Chat</a>
                             </li>
 
 
 
                         }
-                        else if(SignInManager.IsSignedIn(User))
+                        else if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
                                 <a href="~/Bookings/Index" class="nav-link">Kalender</a>

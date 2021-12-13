@@ -13,6 +13,8 @@ namespace AUserBoligForeningMVC.Models
         public DateTime Created { get; set; }
 
         public string PostContent { get; set; }
-        
+
+        public bool isAdmin { get; set; }
+
     }
 }

@@ -93,8 +93,11 @@ namespace AUserBoligForeningMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(model);
-                await _context.SaveChangesAsync();
+                if (DateTime.ParseExact(model.Date, "M/d/yyyy", CultureInfo.InvariantCulture) > DateTime.Now)
+                {
+                    _context.Add(model);
+                    await _context.SaveChangesAsync();
+                }
 
             }
             return Json(booking);
@@ -128,8 +131,11 @@ namespace AUserBoligForeningMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(model);
-                await _context.SaveChangesAsync();
+                if (DateTime.ParseExact(model.Date, "M/d/yyyy", CultureInfo.InvariantCulture) > DateTime.Now)
+                {
+                    _context.Add(model);
+                    await _context.SaveChangesAsync();
+                }
 
             }
             return Json(booking);
@@ -271,7 +277,7 @@ namespace AUserBoligForeningMVC.Controllers
                .FirstOrDefaultAsync(m => m.Date == b.Date && m.Calendar == b.Calendar);
             if (EventUser != null)
             {
-                if (EventUser.CurrentUserMail == mail)
+                if (EventUser.CurrentUserMail == mail || User.IsInRole("Admin"))
                 {
                
                     _context.bookings.Remove(EventUser);
