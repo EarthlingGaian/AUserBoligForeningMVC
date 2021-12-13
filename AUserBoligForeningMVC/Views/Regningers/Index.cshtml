@@ -13,7 +13,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Regning)
             </th>
-           
+
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
@@ -24,28 +24,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Regning) Kr.-
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Calendar)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Regning) Kr.-
+                </td>
 
-                <a asp-action="Details" asp-route-id="@item.Id">Se Regning</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Download PDF</a>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Calendar)
+                </td>
+                <td>
+
+                    <a asp-action="Details" asp-route-id="@item.Id">Se Regning</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Download PDF</a>
 
 
-                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                    @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
 
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
+
     </tbody>
 </table>

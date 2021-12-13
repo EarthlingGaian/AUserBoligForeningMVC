@@ -10,7 +10,8 @@ using AUserBoligForeningMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace AUserBoligForeningMVC.Controllers
 {
@@ -18,19 +19,63 @@ namespace AUserBoligForeningMVC.Controllers
     {
         private readonly UserContext _context;
         private static UserManager<IdentityUser> _userManager;
-        public LejersController(UserContext context, UserManager<IdentityUser> userManager)
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment;
+        
+        public LejersController(UserContext context, UserManager<IdentityUser> userManager, Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _userManager = userManager;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Lejers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.lejers.ToListAsync());
+
+            return View(await _context.lejers.Where(a => a.Adresse.Contains(search) || search == null || a.Fornavn.Contains(search) || a.Email.Contains(search)).ToListAsync());
         }
 
+        public async Task<IActionResult> UploadDokumenter(int? id, DokumentArkivViewModel model)
+        {
 
+            var lejerMail = _context.lejers.Where(e => e.Id == id).Select(m => m.Email).FirstOrDefault();
+
+            if (ModelState.IsValid)
+            {
+                string uniqueFileNameLejeKontrakt = null;
+                string uniqueFileNameIndflytningsPapir = null;
+                if (model.LejeKontrakt != null && model.IndflytningsPapir != null)
+                {
+                    string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img"); //output at path as string
+                   
+                    //save lejekontrakt
+                    uniqueFileNameLejeKontrakt =  Guid.NewGuid().ToString() + "_" + model.LejeKontrakt.FileName;
+                    string filePathLejeKontrakt = Path.Combine(uploadFolder, uniqueFileNameLejeKontrakt);
+
+                    model.LejeKontrakt.CopyTo(new FileStream(filePathLejeKontrakt, FileMode.Create));
+
+
+                    //save indlytningspapir
+                    uniqueFileNameIndflytningsPapir = Guid.NewGuid().ToString() + "_" + model.IndflytningsPapir.FileName;
+                    string filePathIndflytningsPapir = Path.Combine(uploadFolder, uniqueFileNameIndflytningsPapir);
+
+                    model.LejeKontrakt.CopyTo(new FileStream(filePathIndflytningsPapir, FileMode.Create));
+                }
+
+                var newDokArkiv = new DokumentArkiv
+                {
+                    LejeKontrakt = uniqueFileNameLejeKontrakt,
+                    IndflytningsPapir = uniqueFileNameIndflytningsPapir,
+                    BeboerMail = lejerMail
+                    
+                };
+
+                _context.Add(newDokArkiv);
+                await _context.SaveChangesAsync();
+
+            }
+                return View();
+        }
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -127,22 +172,62 @@ namespace AUserBoligForeningMVC.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        public IActionResult SignUp()
+        public async Task<IActionResult> SignUp()
         {
-            return View();
+            //Brugere som ikke er registreret som lejer
+            var lejers = await _context.lejers.Select(u => u.Email).ToListAsync();
+            var usersNotLejers = await _userManager.Users.Where(m => !lejers.Contains(m.Email)).ToListAsync(); //get all emails that are not already a lejer
+
+            List<SelectListItem> listLejers = new List<SelectListItem>();
+
+            foreach(var email in usersNotLejers)
+            {
+                SelectListItem selListItem = new SelectListItem() { Value = "null", Text = email.ToString() };
+                listLejers.Add(selListItem);
+            }
+
+
+
+            //Lejlgheder som ikke er lejet ud
+            var lejligheder = await _context.lejers.Select(l => l.Adresse).ToListAsync();
+
+            var ledigeLejligheder = await _context.Lejligheder.Where(m => !lejligheder.Contains(m.Adresse))
+                .Select(m => m.Adresse) //tager kun adresser ellers ville vi også få id med
+                .ToListAsync();
+            
+            List<SelectListItem> listLedigeLejligheder = new List<SelectListItem>();
+
+            foreach (var lejlighed in ledigeLejligheder)
+            {
+                SelectListItem selListItem = new SelectListItem() { Value = "null", Text = lejlighed.ToString() };
+                listLedigeLejligheder.Add(selListItem);
+            }
+
+
+
+
+            var model = new CombinedModelForSignUp
+            {
+                Lejers = new SelectList(listLejers, "Value", "Text", null),
+                Lejligheders = new SelectList(listLedigeLejligheder, "Value", "Text", null)
+            };
+
+
+
+            return View(model);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> SignUp(Models.Lejer model)
+        public async Task<IActionResult> SignUp(Models.CombinedModelForSignUp model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(model);
+                _context.Add(model.Lejer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return View(model.Lejer);
         }
 
         //// GET: Lejers/Details/5

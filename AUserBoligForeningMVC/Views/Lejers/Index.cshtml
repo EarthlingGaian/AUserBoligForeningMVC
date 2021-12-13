@@ -3,13 +3,33 @@
 @{
     ViewData["Title"] = "Index";
 }
+<br />
+<center>
+    <h1>Lejer Administration</h1>
+    <br />
+    <a href="~/Lejers/SignUp">
+        <input type="submit" class="btn btn-primary btn-sm" id="Button1" value="Tilføj Ny Lejer" />
 
-<h1>Index</h1>
+    </a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+</center>
+
+<br />
+<hr />
+<p>Søg ud fra adresse, fornavn eller email</p>
+@using (Html.BeginForm("Index", "Lejers", FormMethod.Get))
+{
+    @Html.TextBox("search")
+    <input type="submit" value="Søg" />
+}
+<br />
+
+<a href="~/Lejers/Index">Se hele listen igen</a>
+<br />
+<br />
+
+
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -40,38 +60,53 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fornavn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Efternavn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adresse)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostNr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TlfNr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.By)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alder)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="2" style="lighting-color:palevioletred">
+                    Intet resultat kunne findes, prøv at tjekke for stavefejl
+                </td>
+            </tr>
+        }
+        else
+        {
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fornavn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Efternavn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adresse)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PostNr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TlfNr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.By)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Alder)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>|
+                        <a asp-action="UploadDokumenter" asp-route-id="@item.Id">Upload fil</a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

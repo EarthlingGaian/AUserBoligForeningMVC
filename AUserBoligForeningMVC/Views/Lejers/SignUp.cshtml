@@ -1,4 +1,4 @@
-﻿@model AUserBoligForeningMVC.Models.Lejer
+﻿@model AUserBoligForeningMVC.Models.CombinedModelForSignUp
 
 @{
     ViewData["Title"] = "SignUp";
@@ -49,9 +49,17 @@
                             <div class="row">
 
                                 <div class="col">
-                                    <label asp-for="Email" class="control-label"></label>
-                                    <input asp-for="Email" class="form-control" placeholder="Bruger mail" />
-                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                    <center>
+                                        <b><label asp-for="Lejer.Email" class="control-label"></label></b>
+                                        <br />
+                                        <p>Bruger emails, som ikke er en lejer</p>
+                                        @Html.DropDownList("ddlDropDownList", Model.Lejers, "Brugere", new { @class = "css-class" })
+                                        <br />
+                                        <br />
+
+                                        <input asp-for="Lejer.Email" class="form-control" placeholder="Bruger mail" />
+                                        <span asp-validation-for="Lejer.Email" class="text-danger"></span>
+                                    </center>
                                 </div>
                             </div>
                             <hr />
@@ -60,17 +68,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="Fornavn" class="control-label"></label>
-                                        <input asp-for="Fornavn" class="form-control" placeholder="Fornavn" />
-                                        <span asp-validation-for="Fornavn" class="text-danger"></span>
+                                        <label asp-for="Lejer.Fornavn" class="control-label"></label>
+                                        <input asp-for="Lejer.Fornavn" class="form-control" placeholder="Fornavn" />
+                                        <span asp-validation-for="Lejer.Fornavn" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="Efternavn" class="control-label"></label>
-                                        <input asp-for="Efternavn" class="form-control" placeholder="Efternavn" />
-                                        <span asp-validation-for="Efternavn" class="text-danger"></span>
+                                        <label asp-for="Lejer.Efternavn" class="control-label"></label>
+                                        <input asp-for="Lejer.Efternavn" class="form-control" placeholder="Efternavn" />
+                                        <span asp-validation-for="Lejer.Efternavn" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
@@ -80,17 +88,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="TlfNr" class="control-label"></label>
-                                        <input asp-for="TlfNr" class="form-control" placeholder="Telefon nummer" />
-                                        <span asp-validation-for="TlfNr" class="text-danger"></span>
+                                        <label asp-for="Lejer.TlfNr" class="control-label"></label>
+                                        <input asp-for="Lejer.TlfNr" class="form-control" placeholder="Telefon nummer" />
+                                        <span asp-validation-for="Lejer.TlfNr" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="Alder" class="control-label"></label>
-                                        <input asp-for="Alder" class="form-control" placeholder="Alder" />
-                                        <span asp-validation-for="Alder" class="text-danger"></span>
+                                        <label asp-for="Lejer.Alder" class="control-label"></label>
+                                        <input asp-for="Lejer.Alder" class="form-control" placeholder="Alder" />
+                                        <span asp-validation-for="Lejer.Alder" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
@@ -100,17 +108,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="PostNr" class="control-label"></label>
-                                        <input asp-for="PostNr" class="form-control" placeholder="Postnummer" />
-                                        <span asp-validation-for="PostNr" class="text-danger"></span>
+                                        <label asp-for="Lejer.PostNr" class="control-label"></label>
+                                        <input asp-for="Lejer.PostNr" class="form-control" placeholder="Postnummer" />
+                                        <span asp-validation-for="Lejer.PostNr" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="By" class="control-label"></label>
-                                        <input asp-for="By" class="form-control" placeholder="By" />
-                                        <span asp-validation-for="By" class="text-danger"></span>
+                                        <label asp-for="Lejer.By" class="control-label"></label>
+                                        <input asp-for="Lejer.By" class="form-control" placeholder="By" />
+                                        <span asp-validation-for="Lejer.By" class="text-danger"></span>
                                     </div>
                                 </div>
 
@@ -118,12 +126,19 @@
                             </div>
 
 
-
+                            <hr />
                             <div class="row">
                                 <div class="col">
-                                    <label asp-for="Adresse" class="control-label"></label>
-                                    <input asp-for="Adresse" class="form-control" placeholder="Adresse" />
-                                    <span asp-validation-for="Adresse" class="text-danger"></span>
+                                    <center>
+                                        <b><label asp-for="Lejer.Adresse" class="control-label"></label></b>
+                                        <br />
+                                        <p>Ledige Lejligheder</p>
+                                        @Html.DropDownList("ddlDropDownList", Model.Lejligheders, "Ledige lejligheder", new { @class = "css-class" })
+                                        <br />
+                                        <br />
+                                        <input asp-for="Lejer.Adresse" class="form-control" placeholder="Adresse" />
+                                        <span asp-validation-for="Lejer.Adresse" class="text-danger"></span>
+                                    </center>
                                 </div>
                             </div>
 
@@ -133,8 +148,9 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-success btn-block btn-lg" id="Button1" value="Registrer" />
-
+                                       
+                                            <input type="submit" class="btn btn-primary btn-block btn-md" id="Button1" value="Registrer" />
+                                     
                                     </div>
 
                                 </div>
@@ -148,7 +164,7 @@
                     </div>
 
 
-                    <a href="Home"> << Back to home </a>
+
                     <br />
                     <br />
                 </div>
@@ -158,6 +174,9 @@
         </div>
 
 
+        <a href="~/Lejers/Index">Se hele listen igen</a>
+        <br />
+
     </form>
 
 
@@ -165,6 +184,12 @@
 
 
 </body>
+
+
+
+
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

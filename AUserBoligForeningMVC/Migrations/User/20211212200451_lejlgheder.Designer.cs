@@ -4,14 +4,16 @@ using AUserBoligForeningMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AUserBoligForeningMVC.Migrations.User
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20211212200451_lejlgheder")]
+    partial class lejlgheder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,21 +100,6 @@ namespace AUserBoligForeningMVC.Migrations.User
                     b.HasKey("Id");
 
                     b.ToTable("lejers");
-                });
-
-            modelBuilder.Entity("AUserBoligForeningMVC.Models.Lejligheder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Adresse")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Lejligheder");
                 });
 
             modelBuilder.Entity("AUserBoligForeningMVC.Models.Post", b =>

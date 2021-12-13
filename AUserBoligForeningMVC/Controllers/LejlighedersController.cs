@@ -7,53 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AUserBoligForeningMVC.Data;
 using AUserBoligForeningMVC.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace AUserBoligForeningMVC.Controllers
 {
-    public class PostsController : Controller
+    public class LejlighedersController : Controller
     {
         private readonly UserContext _context;
-        private static UserManager<IdentityUser> _userManager;
-        public PostsController(UserContext context, UserManager<IdentityUser> userManager)
+
+        public LejlighedersController(UserContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        // GET: Posts
-        public async Task<IActionResult> Index()
+        // GET: Lejligheders
+        public async Task<IActionResult> Index(string search)
         {
-           
-            List<Post> modelList = new List<Post>();
-            DateTime curdate = DateTime.Now;
-            curdate = curdate.AddDays(-30); 
             
-
-            var posts =  _context.posts.Where(d => d.Created > curdate);
-
-
-            DateTime curdateDelete = DateTime.Now;
-            curdateDelete = curdateDelete.AddDays(-1095); //3 år
-
-
-            foreach (var item in posts)
-            {
-                Post model = new Post
-                {
-                    Id = item.Id,
-                    AuthorId = item.AuthorId,
-                    AuthorName = item.AuthorName,
-                    Created = item.Created,
-                    PostContent = item.PostContent,
-                };
-                modelList.Add(model);
-            }
-
-            return View(modelList);
+            return View(await _context.Lejligheder.Where(a => a.Adresse.Contains(search) || search == null).ToListAsync());
         }
 
-        // GET: Posts/Details/5
+        // GET: Lejligheders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -61,56 +34,39 @@ namespace AUserBoligForeningMVC.Controllers
                 return NotFound();
             }
 
-            var post = await _context.posts
+            var lejligheder = await _context.Lejligheder
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (post == null)
+            if (lejligheder == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View(lejligheder);
         }
 
-        // GET: Posts/Create
+        // GET: Lejligheders/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Posts/Create
+        // POST: Lejligheders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PostContent")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,Adresse")] Lejligheder lejligheder)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            //_userManager.DeleteAsync(user).Wait();
-            var userId = user?.Id;
-            string mail = user?.Email;
-            
-            var bruger = _context.lejers.Where(a => a.Email == mail).FirstOrDefault();
-
-            Post model = new Post
-            {
-                Id = post.Id,
-                AuthorId = userId,
-                AuthorName = mail,
-                Created = DateTime.Now,
-                PostContent = post.PostContent
-            };
-
             if (ModelState.IsValid)
             {
-
-                _context.Add(model);
+                _context.Add(lejligheder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return View(lejligheder);
         }
 
-        // GET: Posts/Edit/5
+        // GET: Lejligheders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -118,22 +74,22 @@ namespace AUserBoligForeningMVC.Controllers
                 return NotFound();
             }
 
-            var post = await _context.posts.FindAsync(id);
-            if (post == null)
+            var lejligheder = await _context.Lejligheder.FindAsync(id);
+            if (lejligheder == null)
             {
                 return NotFound();
             }
-            return View(post);
+            return View(lejligheder);
         }
 
-        // POST: Posts/Edit/5
+        // POST: Lejligheders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostContent")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Adresse")] Lejligheder lejligheder)
         {
-            if (id != post.Id)
+            if (id != lejligheder.Id)
             {
                 return NotFound();
             }
@@ -142,12 +98,12 @@ namespace AUserBoligForeningMVC.Controllers
             {
                 try
                 {
-                    _context.Update(post);
+                    _context.Update(lejligheder);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PostExists(post.Id))
+                    if (!LejlighederExists(lejligheder.Id))
                     {
                         return NotFound();
                     }
@@ -158,10 +114,10 @@ namespace AUserBoligForeningMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(post);
+            return View(lejligheder);
         }
 
-        // GET: Posts/Delete/5
+        // GET: Lejligheders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -169,30 +125,30 @@ namespace AUserBoligForeningMVC.Controllers
                 return NotFound();
             }
 
-            var post = await _context.posts
+            var lejligheder = await _context.Lejligheder
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (post == null)
+            if (lejligheder == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View(lejligheder);
         }
 
-        // POST: Posts/Delete/5
+        // POST: Lejligheders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var post = await _context.posts.FindAsync(id);
-            _context.posts.Remove(post);
+            var lejligheder = await _context.Lejligheder.FindAsync(id);
+            _context.Lejligheder.Remove(lejligheder);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PostExists(int id)
+        private bool LejlighederExists(int id)
         {
-            return _context.posts.Any(e => e.Id == id);
+            return _context.Lejligheder.Any(e => e.Id == id);
         }
     }
 }

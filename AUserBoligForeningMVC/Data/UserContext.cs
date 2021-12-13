@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AUserBoligForeningMVC.Models;
 
 namespace AUserBoligForeningMVC.Data
 {
@@ -20,6 +21,7 @@ namespace AUserBoligForeningMVC.Data
         public DbSet<Models.Booking> bookings { get; set; }
         public DbSet<Models.DokumentArkiv> dokumentArkivs { get; set; }
         public DbSet<Models.Regninger> regningers { get; set; }
+        public DbSet<AUserBoligForeningMVC.Models.Lejligheder> Lejligheder { get; set; }
     }
     
 }
