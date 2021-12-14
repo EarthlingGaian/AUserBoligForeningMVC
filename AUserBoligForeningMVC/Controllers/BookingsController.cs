@@ -270,7 +270,7 @@ namespace AUserBoligForeningMVC.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-
+            
             string mail = user?.Email;
 
             var EventUser = await _context.bookings

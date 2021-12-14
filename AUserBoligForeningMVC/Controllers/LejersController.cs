@@ -123,7 +123,8 @@ namespace AUserBoligForeningMVC.Controllers
 
                 Fornavn = bruger.Fornavn,
                 Efternavn = bruger.Efternavn,
-                TlfNr = bruger.TlfNr
+                TlfNr = bruger.TlfNr,
+                Alder = bruger.Alder
                 
             };
 
@@ -162,8 +163,26 @@ namespace AUserBoligForeningMVC.Controllers
                     bruger.TlfNr = model.TlfNr;
                     bruger.Alder = model.Alder;
 
+
                     _context.Update(bruger);
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        TempData["message"] = $"Can not update : {ex.Message}";
+                        if (User.IsInRole("Admin"))
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            return RedirectToAction(nameof(Profile));
+                        }    
+                        
+                    }
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -314,7 +333,25 @@ namespace AUserBoligForeningMVC.Controllers
                 try
                 {
                     _context.Update(lejer);
-                    await _context.SaveChangesAsync();
+
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        TempData["message"] = $"Can not update : {ex.Message}";
+                        if (User.IsInRole("Admin"))
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            return RedirectToAction(nameof(Profile));
+                        }
+                    }
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -355,13 +392,26 @@ namespace AUserBoligForeningMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+           //delete lejer
             var lejer = await _context.lejers.FindAsync(id);
             _context.lejers.Remove(lejer);
-            
 
+            //delete dkumentarkiv
             var dokument = await _context.dokumentArkivs.Where(m => m.BeboerMail == lejer.Email).FirstOrDefaultAsync();
             _context.dokumentArkivs.Remove(dokument);
             await _context.SaveChangesAsync();
+
+
+            //delete user
+            var user = await _userManager.FindByEmailAsync(lejer.Email.ToString());
+            var logins = await _userManager.GetLoginsAsync(user);
+            foreach (var login in logins)
+            {
+                var result = await _userManager.RemoveLoginAsync(user, login.LoginProvider, login.ProviderKey);
+            }
+
+
+            await _userManager.DeleteAsync(user);
 
             return RedirectToAction(nameof(Index));
         }
