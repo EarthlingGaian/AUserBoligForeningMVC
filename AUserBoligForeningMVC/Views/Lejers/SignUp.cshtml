@@ -1,189 +1,197 @@
-﻿@model AUserBoligForeningMVC.Models.CombinedModelForSignUp
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+
+@model AUserBoligForeningMVC.Models.CombinedModelForSignUp
 
 @{
     ViewData["Title"] = "SignUp";
 }
-<body>
-    <form asp-action="SignUp">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <br />
-                    <br />
-                    <div class="card">
-                        <div class="card-body">
+@if (SignInManager.IsSignedIn(User))
+{
+    <body>
+        <form asp-action="SignUp">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <br />
+                        <br />
+                        <div class="card">
+                            <div class="card-body">
 
-                            <div class="row">
-                                <div class="col">
-                                    <center>
-                                        <img width="100" src="~/img/userProfileIcon.PNG" />
+                                <div class="row">
+                                    <div class="col">
+                                        <center>
+                                            <img width="100" src="~/img/userProfileIcon.PNG" />
 
-                                    </center>
+                                        </center>
 
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col">
-                                    <center>
-                                        <h5>Lejer Registrering</h5>
-
-                                    </center>
-
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="row">
-                                <div class="col">
-                                    <hr />
-
-                                </div>
-                            </div>
-
-                            <br />
-                            <div class="row">
-
-                                <div class="col">
-                                    <center>
-                                        <b><label asp-for="Lejer.Email" class="control-label"></label></b>
-                                        <br />
-                                        <p>Bruger emails, som ikke er en lejer</p>
-                                        @Html.DropDownList("ddlDropDownList", Model.Lejers, "Brugere", new { @class = "css-class" })
-                                        <br />
-                                        <br />
-
-                                        <input asp-for="Lejer.Email" class="form-control" placeholder="Bruger mail" />
-                                        <span asp-validation-for="Lejer.Email" class="text-danger"></span>
-                                    </center>
-                                </div>
-                            </div>
-                            <hr />
-                            <br />
-                            <div class="row">
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Lejer.Fornavn" class="control-label"></label>
-                                        <input asp-for="Lejer.Fornavn" class="form-control" placeholder="Fornavn" />
-                                        <span asp-validation-for="Lejer.Fornavn" class="text-danger"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Lejer.Efternavn" class="control-label"></label>
-                                        <input asp-for="Lejer.Efternavn" class="form-control" placeholder="Efternavn" />
-                                        <span asp-validation-for="Lejer.Efternavn" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Lejer.TlfNr" class="control-label"></label>
-                                        <input asp-for="Lejer.TlfNr" class="form-control" placeholder="Telefon nummer" />
-                                        <span asp-validation-for="Lejer.TlfNr" class="text-danger"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Lejer.Alder" class="control-label"></label>
-                                        <input asp-for="Lejer.Alder" class="form-control" placeholder="Alder" />
-                                        <span asp-validation-for="Lejer.Alder" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Lejer.PostNr" class="control-label"></label>
-                                        <input asp-for="Lejer.PostNr" class="form-control" placeholder="Postnummer" />
-                                        <span asp-validation-for="Lejer.PostNr" class="text-danger"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Lejer.By" class="control-label"></label>
-                                        <input asp-for="Lejer.By" class="form-control" placeholder="By" />
-                                        <span asp-validation-for="Lejer.By" class="text-danger"></span>
                                     </div>
                                 </div>
 
 
-                            </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <center>
+                                            <h5>Lejer Registrering</h5>
 
+                                        </center>
 
-                            <hr />
-                            <div class="row">
-                                <div class="col">
-                                    <center>
-                                        <b><label asp-for="Lejer.Adresse" class="control-label"></label></b>
-                                        <br />
-                                        <p>Ledige Lejligheder</p>
-                                        @Html.DropDownList("ddlDropDownList", Model.Lejligheders, "Ledige lejligheder", new { @class = "css-class" })
-                                        <br />
-                                        <br />
-                                        <input asp-for="Lejer.Adresse" class="form-control" placeholder="Adresse" />
-                                        <span asp-validation-for="Lejer.Adresse" class="text-danger"></span>
-                                    </center>
+                                    </div>
                                 </div>
-                            </div>
 
 
-                            <br />
-                            <br />
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                       
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <hr />
+
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div class="row">
+
+                                    <div class="col">
+                                        <center>
+                                            <b><label asp-for="Lejer.Email" class="control-label"></label></b>
+                                            <br />
+                                            <p>Bruger emails, som ikke er en lejer</p>
+                                            @Html.DropDownList("ddlDropDownList", Model.Lejers, "Brugere", new { @class = "css-class" })
+                                            <br />
+                                            <br />
+
+                                            <input asp-for="Lejer.Email" class="form-control" placeholder="Bruger mail" />
+                                            <span asp-validation-for="Lejer.Email" class="text-danger"></span>
+                                        </center>
+                                    </div>
+                                </div>
+                                <hr />
+                                <br />
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Lejer.Fornavn" class="control-label"></label>
+                                            <input asp-for="Lejer.Fornavn" class="form-control" placeholder="Fornavn" />
+                                            <span asp-validation-for="Lejer.Fornavn" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Lejer.Efternavn" class="control-label"></label>
+                                            <input asp-for="Lejer.Efternavn" class="form-control" placeholder="Efternavn" />
+                                            <span asp-validation-for="Lejer.Efternavn" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Lejer.TlfNr" class="control-label"></label>
+                                            <input asp-for="Lejer.TlfNr" class="form-control" placeholder="Telefon nummer" />
+                                            <span asp-validation-for="Lejer.TlfNr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Lejer.Alder" class="control-label"></label>
+                                            <input asp-for="Lejer.Alder" class="form-control" placeholder="Alder" />
+                                            <span asp-validation-for="Lejer.Alder" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Lejer.PostNr" class="control-label"></label>
+                                            <input asp-for="Lejer.PostNr" class="form-control" placeholder="Postnummer" />
+                                            <span asp-validation-for="Lejer.PostNr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Lejer.By" class="control-label"></label>
+                                            <input asp-for="Lejer.By" class="form-control" placeholder="By" />
+                                            <span asp-validation-for="Lejer.By" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <hr />
+                                <div class="row">
+                                    <div class="col">
+                                        <center>
+                                            <b><label asp-for="Lejer.Adresse" class="control-label"></label></b>
+                                            <br />
+                                            <p>Ledige Lejligheder</p>
+                                            @Html.DropDownList("ddlDropDownList", Model.Lejligheders, "Ledige lejligheder", new { @class = "css-class" })
+                                            <br />
+                                            <br />
+                                            <input asp-for="Lejer.Adresse" class="form-control" placeholder="Adresse" />
+                                            <span asp-validation-for="Lejer.Adresse" class="text-danger"></span>
+                                        </center>
+                                    </div>
+                                </div>
+
+
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+
                                             <input type="submit" class="btn btn-primary btn-block btn-md" id="Button1" value="Registrer" />
-                                     
+
+                                        </div>
+
                                     </div>
-
                                 </div>
+
+
+
+
+
                             </div>
-
-
-
-
-
                         </div>
+
+
+
+                        <br />
+                        <br />
                     </div>
-
-
-
-                    <br />
-                    <br />
                 </div>
+
+
             </div>
 
 
-        </div>
+            <a href="~/Lejers/Index">Se hele listen igen</a>
+            <br />
+
+        </form>
 
 
-        <a href="~/Lejers/Index">Se hele listen igen</a>
-        <br />
-
-    </form>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-
-</body>
+    </body>
 
 
 
@@ -191,6 +199,28 @@
 
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+}
+else
+{
+    <br />
+    <br />
+
+    <center>
+        <h3>Du har ikke adgang til denne side</h3>
+
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+        </a>
+    </center>
+
+
+
+
+    <br />
+    <br />
+    <br />
 }

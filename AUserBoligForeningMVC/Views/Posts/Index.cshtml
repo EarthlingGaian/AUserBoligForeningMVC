@@ -1,112 +1,141 @@
-﻿@model IEnumerable<AUserBoligForeningMVC.Models.Post>
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+@model IEnumerable<AUserBoligForeningMVC.Models.Post>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "_Layout";
 }
-<br />
-<h1 style="text-align:center">Chat</h1>
-<p style="text-align:center">Be kind and respectfull when writting, please</p>
 
-<div class="card">
-    <div class="card-body">
-        <div class="scrollable">
+@if (SignInManager.IsSignedIn(User))
+{
+    <br />
+    <h1 style="text-align:center">Chat</h1>
+    <p style="text-align:center">Be kind and respectfull when writting, please</p>
 
-            @foreach (var item in Model)
-            {
+    <div class="card">
+        <div class="card-body">
+            <div class="scrollable">
 
-                if (item.AuthorName == User.Identity.Name)
+                @foreach (var item in Model)
                 {
-                    <div class="row" id="postIndexContentCurrentUser">
-                        <div class="col-md-9 ">
-                           
-                            <div class="postContent postContentContainerCurrentUser">
-                                @Html.Raw(item.PostContent)
+
+                    if (item.AuthorName == User.Identity.Name)
+                    {
+                        <div class="row" id="postIndexContentCurrentUser">
+                            <div class="col-md-9 ">
+
+                                <div class="postContent postContentContainerCurrentUser">
+                                    @item.PostContent
+
+                                </div>
 
                             </div>
+                            <div class="col-md-3 postAuthorContainer">
+                                <a asp-controller="Posts" asp-action="Detail" asp-route-id="@item.AuthorId">
+                                    @item.AuthorName
+                                </a>
 
-                        </div>
-                        <div class="col-md-3 postAuthorContainer">
-                            <a asp-controller="Posts" asp-action="Detail" asp-route-id="@item.AuthorId">
-                                @item.AuthorName
-                            </a>
+                                <span class="postDate">
+                                    @item.Created
+                                </span>
+                                <a text-align="right" asp-action="Delete" asp-route-id="@item.Id">Delete </a>
 
-                            <span class="postDate">
-                                @item.Created
-                            </span>
-                            <a text-align="right" asp-action="Delete" asp-route-id="@item.Id">Delete </a>
-                            
-                            @if (item.isAdmin)
-                            {
-                                <span class="isAdmin smaller"> Admin</span>
-                            }
+                                @if (item.isAdmin)
+                                {
+                                    <span class="isAdmin smaller"> Admin</span>
+                                }
 
-                        </div>
-                    </div>
-
-
-                }
-                else
-                {
-                    <div class="row" id="postIndexContent">
-                        <div class="col-md-3 postAuthorContainer">
-                            <a asp-controller="Posts" asp-action="Detail" asp-route-id="@item.AuthorId">
-                                @item.AuthorName
-                            </a>
-
-                            <span class="postDate">
-                                @item.Created
-                            </span>
-
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <a text-align="right" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            }
-
-                            @if (item.isAdmin)
-                            {
-                                <span class="isAdmin smaller"> Admin</span>
-                            }
-
-                        </div>
-                        <div class="col-md-9 postContentContainer">
-                            
-                            <div class="postContent">
-                                @Html.Raw(item.PostContent)
                             </div>
-
                         </div>
-                    </div>
+
+
+                    }
+                    else
+                    {
+                        <div class="row" id="postIndexContent">
+                            <div class="col-md-3 postAuthorContainer">
+                                <a asp-controller="Posts" asp-action="Detail" asp-route-id="@item.AuthorId">
+                                    @item.AuthorName
+                                </a>
+
+                                <span class="postDate">
+                                    @item.Created
+                                </span>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a text-align="right" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                }
+
+                                @if (item.isAdmin)
+                                {
+                                    <span class="isAdmin smaller"> Admin</span>
+                                }
+
+                            </div>
+                            <div class="col-md-9 postContentContainer">
+
+                                <div class="postContent">
+                                    @Html.Raw(item.PostContent)
+                                </div>
+
+                            </div>
+                        </div>
+
+                    }
+                    <br />
 
                 }
-                <br />
-
-            }
-        </div>
-    </div>
-</div>
-<br />
-<hr />
-<div class="row">
-    <div class="col">
-        <br />
-        <br />
-        <div class="row">
-        <div class="col">
-           
-              
-           
-                <div class="form-group">
-                    <a href="~/posts/Create">
-                        <input type="submit" class="btn btn-primary btn-block btn-md" id="Button1" value="Create Post" />
-                        
-                    </a> 
-                </div>
-               
-
             </div>
         </div>
     </div>
-</div>
+    <br />
+    <hr />
+    <div class="row">
+        <div class="col">
+            <br />
+            <br />
+            <div class="row">
+                <div class="col">
 
 
+
+                    <div class="form-group">
+                        <a href="~/posts/Create">
+                            <input type="submit" class="btn btn-primary btn-block btn-md" id="Button1" value="Create Post" />
+
+                        </a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <br />
+    <br />
+
+    <center>
+        <h3>Du har ikke adgang til denne side</h3>
+
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+        </a>
+    </center>
+
+
+
+
+    <br />
+    <br />
+    <br />
+}

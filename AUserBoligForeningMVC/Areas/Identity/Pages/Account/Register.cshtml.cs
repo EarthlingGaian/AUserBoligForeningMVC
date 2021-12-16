@@ -91,10 +91,17 @@ namespace AUserBoligForeningMVC.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm you want to create a new account",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    
-                     RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    
-               
+
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    }
+                    else
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
+
                 }
                 foreach (var error in result.Errors)
                 {

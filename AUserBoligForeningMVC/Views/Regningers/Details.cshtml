@@ -1,217 +1,245 @@
-﻿@model AUserBoligForeningMVC.Models.Regninger
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model AUserBoligForeningMVC.Models.Regninger
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<head>
-    
+@if (SignInManager.IsSignedIn(User))
+{
+    <head>
 
-    <style>
-        .invoice-box {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 16px;
-            line-height: 24px;
-            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-            color: #555;
-        }
 
-            .invoice-box table {
-                width: 100%;
-                line-height: inherit;
-                text-align: left;
+        <style>
+            .invoice-box {
+                max-width: 800px;
+                margin: auto;
+                padding: 30px;
+                border: 1px solid #eee;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+                font-size: 16px;
+                line-height: 24px;
+                font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+                color: #555;
             }
 
-                .invoice-box table td {
-                    padding: 5px;
-                    vertical-align: top;
+                .invoice-box table {
+                    width: 100%;
+                    line-height: inherit;
+                    text-align: left;
                 }
 
-                .invoice-box table tr td:nth-child(2) {
+                    .invoice-box table td {
+                        padding: 5px;
+                        vertical-align: top;
+                    }
+
+                    .invoice-box table tr td:nth-child(2) {
+                        text-align: right;
+                    }
+
+                    .invoice-box table tr.top table td {
+                        padding-bottom: 20px;
+                    }
+
+                        .invoice-box table tr.top table td.title {
+                            font-size: 45px;
+                            line-height: 45px;
+                            color: #333;
+                        }
+
+                    .invoice-box table tr.information table td {
+                        padding-bottom: 40px;
+                    }
+
+                    .invoice-box table tr.heading td {
+                        background: #eee;
+                        border-bottom: 1px solid #ddd;
+                        font-weight: bold;
+                    }
+
+                    .invoice-box table tr.details td {
+                        padding-bottom: 20px;
+                    }
+
+                    .invoice-box table tr.item td {
+                        border-bottom: 1px solid #eee;
+                    }
+
+                    .invoice-box table tr.item.last td {
+                        border-bottom: none;
+                    }
+
+                    .invoice-box table tr.total td:nth-child(2) {
+                        border-top: 2px solid #eee;
+                        font-weight: bold;
+                    }
+
+
+
+                    .invoice-box table tr.information table td {
+                        width: 100%;
+                        display: block;
+                        text-align: center;
+                    }
+
+            }
+
+            /** RTL **/
+            .invoice-box.rtl {
+                direction: rtl;
+                font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            }
+
+                .invoice-box.rtl table {
                     text-align: right;
                 }
 
-                .invoice-box table tr.top table td {
-                    padding-bottom: 20px;
-                }
-
-                    .invoice-box table tr.top table td.title {
-                        font-size: 45px;
-                        line-height: 45px;
-                        color: #333;
+                    .invoice-box.rtl table tr td:nth-child(2) {
+                        text-align: left;
                     }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js"></script>
+    </head>
+    <body>
+        <br />
+        <br />
+        <div id="test">
+            <div class="invoice-box">
+                <table cellpadding="0" cellspacing="0">
+                    <tr class="top">
+                        <center>
+                            <h4><b>Vigtigt</b></h4>
+                            <p><b>Denne regninger bliver trukket gennem din husleje for næste måned</b></p>
+                            <p>Hvis du skulle have nogen spørgsmål er du velkommen til at kontakte os</p>
+                        </center>
+                        <td colspan="2">
 
-                .invoice-box table tr.information table td {
-                    padding-bottom: 40px;
-                }
-
-                .invoice-box table tr.heading td {
-                    background: #eee;
-                    border-bottom: 1px solid #ddd;
-                    font-weight: bold;
-                }
-
-                .invoice-box table tr.details td {
-                    padding-bottom: 20px;
-                }
-
-                .invoice-box table tr.item td {
-                    border-bottom: 1px solid #eee;
-                }
-
-                .invoice-box table tr.item.last td {
-                    border-bottom: none;
-                }
-
-                .invoice-box table tr.total td:nth-child(2) {
-                    border-top: 2px solid #eee;
-                    font-weight: bold;
-                }
+                            <table>
+                                <tr>
 
 
+                                    <td>
+                                        <b>Regning</b> <br />
+                                        Udlejnings Dato: @Model.Date <br />
 
-                .invoice-box table tr.information table td {
-                    width: 100%;
-                    display: block;
-                    text-align: center;
-                }
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-        }
+                    <tr class="information">
+                        <td colspan="2">
+                            <table>
+                                <tr>
+                                    <td>
+                                        Unik Boligforening<br />
+                                        Unik Gade 12 <br />
+                                        DK, Vejle 7100 <br />
+                                        Kontakt nummer: 70707070
+                                    </td>
 
-        /** RTL **/
-        .invoice-box.rtl {
-            direction: rtl;
-            font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-        }
+                                    <td>
 
-            .invoice-box.rtl table {
-                text-align: right;
-            }
+                                        Julie Petersen<br />
+                                        julieAdmin@gmail.com <br />
 
-                .invoice-box.rtl table tr td:nth-child(2) {
-                    text-align: left;
-                }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js"></script>
-</head>
-<body>
-    <br />
-    <br />
-    <div id="test">
-        <div class="invoice-box">
-            <table cellpadding="0" cellspacing="0">
-                <tr class="top">
-                    <center>
-                        <h4><b>Vigtigt</b></h4>
-                        <p><b>Denne regninger bliver trukket gennem din husleje for næste måned</b></p>
-                        <p>Hvis du skulle have nogen spørgsmål er du velkommen til at kontakte os</p>
-                    </center>
-                    <td colspan="2">
-
-                        <table>
-                            <tr>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
 
-                                <td>
-                                    <b>Regning</b> <br />
-                                    Udlejnings Dato: @Model.Date <br />
+                    <tr class="heading">
+                        <td>Information</td>
 
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                        <td>Pris</td>
+                    </tr>
 
-                <tr class="information">
-                    <td colspan="2">
-                        <table>
-                            <tr>
-                                <td>
-                                    Unik Boligforening<br />
-                                    Unik Gade 12 <br />
-                                    DK, Vejle 7100 <br />
-                                    Kontakt nummer: 70707070
-                                </td>
+                    <tr class="item">
+                        <td>Kalender: @Model.Calendar</td>
 
-                                <td>
-
-                                    Julie Petersen<br />
-                                    julieAdmin@gmail.com <br />
-
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-
-
-                <tr class="heading">
-                    <td>Information</td>
-
-                    <td>Pris</td>
-                </tr>
-
-                <tr class="item">
-                    <td>Kalender: @Model.Calendar</td>
-
-                    <td>@Model.Regning</td>
-                </tr>
+                        <td>@Model.Regning</td>
+                    </tr>
 
 
 
 
-                <tr class="total">
-                    <td></td>
+                    <tr class="total">
+                        <td></td>
 
-                    <td>Total: @Model.Regning Kr.-</td>
-                </tr>
+                        <td>Total: @Model.Regning Kr.-</td>
+                    </tr>
 
-                <br />
-                <hr />
+                    <br />
+                    <hr />
 
-                <tr>
+                    <tr>
 
-                    <td>Id: @Model.Id</td>
-
-
-                </tr>
-
-                <tr>
-
-                    <td><b>Beboers mail:</b> @Model.BeboerMail</td>
+                        <td>Id: @Model.Id</td>
 
 
-                </tr>
-                <br />
-            </table>
+                    </tr>
+
+                    <tr>
+
+                        <td><b>Beboers mail:</b> @Model.BeboerMail</td>
+
+
+                    </tr>
+                    <br />
+                </table>
+            </div>
+
+
+        </div>
+        <br />
+        <div class="form-group">
+            <center>
+                <a href="javascript:generatePDF()">
+                    <input type="submit" class="btn btn-primary btn-lg" id="Button1" value="Download PDF" />
+                </a>
+            </center>
         </div>
 
+        <script>
+            async function generatePDF() {
 
+                var element = document.getElementById('test');
+                html2pdf(element);
+            }
+        </script>
+    </body>
+
+
+    <div>
+
+        <a asp-action="Index">Gå Tilbage Til Oversigt</a>
     </div>
+}
+else
+{
     <br />
-    <div class="form-group">
-        <center>
-            <a href="javascript:generatePDF()">
-                <input type="submit" class="btn btn-primary btn-lg" id="Button1" value="Download PDF" />
-            </a>
-        </center>
-    </div>
+    <br />
 
-    <script>
-        async function generatePDF() {
+    <center>
+        <h3>Du har ikke adgang til denne side</h3>
 
-            var element = document.getElementById('test');
-            html2pdf(element);
-        }
-    </script>
-</body>
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+        </a>
+    </center>
 
 
-<div>
-   
-    <a asp-action="Index">Gå Tilbage Til Oversigt</a>
-</div>
+
+
+    <br />
+    <br />
+    <br />
+}

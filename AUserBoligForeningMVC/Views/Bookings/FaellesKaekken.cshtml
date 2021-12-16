@@ -1,66 +1,94 @@
-﻿@model IEnumerable<AUserBoligForeningMVC.Models.Booking>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model IEnumerable<AUserBoligForeningMVC.Models.Booking>
 
 
-<html lang="en">
-<head>
-    <title>Calendar App</title>
+@if (SignInManager.IsSignedIn(User))
+{
+    <html lang="en">
+    <head>
+        <title>Calendar App</title>
 
-    <link rel="stylesheet" href="~/css/Calender.css" />
-</head>
-<body>
-    <br />
-    <center>
-        <h1>Kalender</h1>
-    </center>
-    <center>
-        <h4>Fælles Køkken</h4>
+        <link rel="stylesheet" href="~/css/Calender.css" />
+    </head>
+    <body>
         <br />
-        <p>Reserver ved at kikke på din ønkede dag, du kan vælge flere dage, men kun indenfor nuværende måned</p>
-        
-        <p>Det koster 5kr.- per dag, som vil blive trukket gemmen din husleje</p>
-    </center>
-    
-    <hr />
-    <div class="row">
-        <div id="header">
-            <di>
-                <div id="monthDisplay"></div>
+        <center>
+            <h1>Kalender</h1>
+        </center>
+        <center>
+            <h4>Fælles Køkken</h4>
+            <br />
+            <p>Reserver ved at klikke på din ønkede dag, du kan vælge flere dage, men kun indenfor nuværende måned</p>
 
-            </di>
+            <p>Det koster 5kr.- per dag, som vil blive trukket gennem din husleje</p>
+        </center>
+
+        <hr />
+        <div class="row">
+            <div id="header">
+                <di>
+                    <div id="monthDisplay"></div>
+
+                </di>
+            </div>
+
+
+
+            <div id="calendar"></div>
+
+
+
+            <div id="newEventModal">
+                <h2>Personoplysninger</h2>
+                <input id="eventTitleInput" placeholder="Skriv Dine Initialer" />
+
+                <button id="saveButton">Save</button>
+                <button id="cancelButton">Cancel</button>
+            </div>
+
+            <div id="deleteEventModal">
+                <h2>Personoplysninger</h2>
+
+                <p id="eventText"></p>
+
+                <button id="deleteButton">Delete</button>
+                <button id="closeButton">Close</button>
+            </div>
+
+            <div id="modalBackDrop"></div>
         </div>
-
-
-
-        <div id="calendar"></div>
-
-
-
-        <div id="newEventModal">
-            <h2>Personoplysninger</h2>
-            <input id="eventTitleInput" placeholder="Skriv Dine Initialer" />
-
-            <button id="saveButton">Save</button>
-            <button id="cancelButton">Cancel</button>
-        </div>
-   
-        <div id="deleteEventModal">
-            <h2>Personoplysninger</h2>
-
-            <p id="eventText"></p>
-
-            <button id="deleteButton">Delete</button>
-            <button id="closeButton">Close</button>
-        </div>
-        
-        <div id="modalBackDrop"></div>
-    </div>
-    @section scripts{
-        <script>
+        @section scripts{
+            <script>
             var sourcearray = @Json.Serialize(@Model);
-        </script>
-        <script type="module" src="~/js/CalenderKaekken.js"></script>
-    }
+            </script>
+            <script type="module" src="~/js/CalenderKaekken.js"></script>
+        }
 
 
-</body>
+    </body>
 </html>
+}
+else
+{
+<br />
+<br />
+
+<center>
+    <h3>Du har ikke adgang til denne side</h3>
+
+    <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+        <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+    </a>
+</center>
+
+
+
+
+<br />
+<br />
+<br />
+}

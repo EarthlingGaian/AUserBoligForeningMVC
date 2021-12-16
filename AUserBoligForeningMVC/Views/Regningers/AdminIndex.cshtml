@@ -1,85 +1,114 @@
-﻿@model IEnumerable<AUserBoligForeningMVC.Models.Regninger>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+@model IEnumerable<AUserBoligForeningMVC.Models.Regninger>
 
 @{
     ViewData["Title"] = "AdminIndex";
 }
-<br />
-<center>
-    <h1>Regning Administration</h1>
-</center>
-
-<br />
-
-<hr />
-<p>Søg ud fra email, dato eller kalender</p>
-@using (Html.BeginForm("AdminIndex", "Regningers", FormMethod.Get))
+@if (SignInManager.IsSignedIn(User))
 {
-    @Html.TextBox("search")
-    <input type="submit" value="Søg" />
-}
-<br />
+    <br />
+    <center>
+        <h1>Regning Administration</h1>
+    </center>
 
-<a href="~/Regningers/AdminIndex">Se hele listen igen</a>
-<br />
-<br />
-<a href="~/Bookings/Index">
-    <input type="submit" class="btn btn-primary btn-sm" id="Button1" value="Gå Til Kalenderne" />
+    <br />
 
-</a>
-<br />
-<br />
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Regning)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BeboerMail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Calendar)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Count() == 0)
-        {
+    <hr />
+    <p>Søg ud fra email, dato eller kalender</p>
+    @using (Html.BeginForm("AdminIndex", "Regningers", FormMethod.Get))
+    {
+        @Html.TextBox("search")
+        <input type="submit" value="Søg" />
+    }
+    <br />
 
+    <a href="~/Regningers/AdminIndex">Se hele listen igen</a>
+    <br />
+    <br />
+    <a href="~/Bookings/Index">
+        <input type="submit" class="btn btn-primary btn-sm" id="Button1" value="Gå Til Kalenderne" />
+
+    </a>
+    <br />
+    <br />
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td colspan="2" style="lighting-color:palevioletred">
-                    Ingen adresse med dette navn, prøv at tjekke for stavefejl
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Regning)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BeboerMail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Calendar)
+                </th>
+                <th></th>
             </tr>
-        }
-        else
-        {
-            @foreach (var item in Model)
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Regning) kr.-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BeboerMail)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Calendar)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
 
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <tr>
+                    <td colspan="2" style="lighting-color:palevioletred">
+                        Ingen adresse med dette navn, prøv at tjekke for stavefejl
                     </td>
                 </tr>
             }
-        }
-    </tbody>
-</table>
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Regning) kr.-
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BeboerMail)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Calendar)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <br />
+    <br />
+
+    <center>
+        <h3>Du har ikke adgang til denne side</h3>
+
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+        </a>
+    </center>
+
+
+
+
+    <br />
+    <br />
+    <br />
+}

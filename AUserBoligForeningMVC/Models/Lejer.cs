@@ -15,7 +15,6 @@ namespace AUserBoligForeningMVC.Models
         public string Fornavn { get; set; }
         [ConcurrencyCheck]
         public string Efternavn { get; set; }
-
         public string Adresse { get; set; }
         public int PostNr { get; set; }
         public string Email { get; set; }

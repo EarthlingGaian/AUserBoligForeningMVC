@@ -1,45 +1,76 @@
-﻿<br />
-<br />
-<div class="row">
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 
 
-    <div class="col">
-        <center>
-            <img width="400" src="~/img/handshake.PNG" />
 
-        </center>
+@if (SignInManager.IsSignedIn(User))
+{
 
+
+    <br />
+    <br />
+    <div class="row">
+
+
+
+        <div class="col">
+            <center>
+                <img width="400" src="~/img/handshake.PNG" />
+
+            </center>
+
+        </div>
     </div>
-</div>
-<br />
-<br />
+    <br />
+    <br />
 
 
-<div class="row">
+    <div class="row">
 
 
 
-    <div class="col">
-        <center>
-            <h4>Dokumenter</h4>
-            <p>Her kan du finde relevante dokumenter i forbindelse dine aftaler og forpligtelser</p>
+        <div class="col">
+            <center>
+                <h4>Dokumenter</h4>
+                <p>Her kan du finde relevante dokumenter i forbindelse dine aftaler og forpligtelser</p>
 
-            <a href="~/DokumentArkivs/Lejekontrakt">
-                <input type="submit" value="Gå Til Lejekontrakt" class="btn btn-primary" />
-            </a>
+                <a href="~/DokumentArkivs/Lejekontrakt">
+                    <input type="submit" value="Gå Til Lejekontrakt" class="btn btn-primary" />
+                </a>
 
-            <a href="~/DokumentArkivs/Indflytningspapir">
+                <a href="~/DokumentArkivs/Indflytningspapir">
 
-                <input type="submit" value="Gå Til Indflytningspapir" class="btn btn-primary" />
-            </a>
+                    <input type="submit" value="Gå Til Indflytningspapir" class="btn btn-primary" />
+                </a>
 
 
-        </center>
+            </center>
 
+        </div>
     </div>
-</div>
+}
+
+
+else
+{
+    <br />
+    <br />
+
+    <center>
+        <h3>Du har ikke adgang til denne side</h3>
+
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+        </a>
+    </center>
 
 
 
 
+    <br />
+    <br />
+    <br />
+}

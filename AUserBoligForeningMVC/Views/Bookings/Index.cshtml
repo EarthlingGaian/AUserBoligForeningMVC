@@ -1,99 +1,128 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 
-<br />  
-<br />  
-<div class="row">
+@if (SignInManager.IsSignedIn(User))
+{
+
+    <br />
+
+    <br />
+
+    <div class="row">
 
 
-    <div class="card">
-        <div class="card-body">
+        <div class="card">
+            <div class="card-body">
 
-            <div class="col">
-                <div class="row">
-                    <center>
-                        <img width="235" src="~/img/bilSharing.PNG" />
+                <div class="col">
+                    <div class="row">
+                        <center>
+                            <img width="235" src="~/img/bilSharing.PNG" />
 
-                    </center>
+                        </center>
 
-                </div>
-                <br />
-                <div class="row">
-                    
-                    <center>
-                        <h4>Fælles EL-Bil</h4>
-                        <p>Spar på miljøet og pengepungen</p>
+                    </div>
+                    <br />
+                    <div class="row">
 
-                        <a href="~/Bookings/FaellesBil">
-                            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Gå Til Kalender" />
+                        <center>
+                            <h4>Fælles EL-Bil</h4>
+                            <p>Spar på miljøet og pengepungen</p>
 
-                        </a>
+                            <a href="~/Bookings/FaellesBil">
+                                <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Gå Til Kalender" />
 
-                    </center>
+                            </a>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
+                        </center>
 
-            <div class="col">
-                <div class="row">
-                    <center>
-                        <img width="280" src="~/img/køkken.PNG" />
-
-                    </center>
-
-                </div>
-                <br />
-                <br />
-                <div class="row">
-
-                    <center>
-                        <h4>Fælles Køkken</h4>
-                        <p>Brug for et større køkken?</p>
-
-                        <a href="~/Bookings/FaellesKaekken">
-                            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Gå Til Kalender" />
-
-                        </a>
-
-                    </center>
-
-                </div>
-            </div>
-        </div>
-    </div>
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="col">
-                        <div class="row">
-                            <center>
-                                <img width="350" src="~/img/RoomSharing.PNG" />
-
-                            </center>
-
-                        </div>
-                        <br />
-                        <br />
-                        <div class="row">
-                            <br />
-                            <br />
-                            <center>
-                                <h4>Fælles Lokale</h4>
-                                <p>Skal du holde fest eller andet arrangement?</p>
-
-                                <a href="~/Bookings/FaellesLokale">
-                                    <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Gå Til Kalender" />
-
-                                </a>
-
-                            </center>
-
-                        </div>
                     </div>
                 </div>
             </div>
-</div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="col">
+                    <div class="row">
+                        <center>
+                            <img width="280" src="~/img/køkken.PNG" />
+
+                        </center>
+
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+
+                        <center>
+                            <h4>Fælles Køkken</h4>
+                            <p>Brug for et større køkken?</p>
+
+                            <a href="~/Bookings/FaellesKaekken">
+                                <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Gå Til Kalender" />
+
+                            </a>
+
+                        </center>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="col">
+                    <div class="row">
+                        <center>
+                            <img width="350" src="~/img/RoomSharing.PNG" />
+
+                        </center>
+
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <br />
+                        <br />
+                        <center>
+                            <h4>Fælles Lokale</h4>
+                            <p>Skal du holde fest eller andet arrangement?</p>
+
+                            <a href="~/Bookings/FaellesLokale">
+                                <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Gå Til Kalender" />
+
+                            </a>
+
+                        </center>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else 
+{ 
+<br />
+<br />
+
+<center>
+    <h3>Du har ikke adgang til denne side</h3>
+
+    <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+        <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+    </a>
+</center>
+
+    
+
+
+<br />
+<br />
+<br />
+}

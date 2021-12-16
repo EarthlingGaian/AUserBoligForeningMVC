@@ -1,67 +1,97 @@
-﻿@model IEnumerable<AUserBoligForeningMVC.Models.Lejligheder>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model IEnumerable<AUserBoligForeningMVC.Models.Lejligheder>
 
 @{
     ViewData["Title"] = "Index";
 }
-<br />
-<center>
-    <h1>Lejligheder</h1>
-    <br />
-    <a href="~/Lejligheders/Create">
-        <input type="submit" class="btn btn-primary btn-sm" id="Button1" value="Tilføj en ny lejlighed" />
 
-    </a>
-
-</center>
-
-<br />
-<hr />
-<p>Søg ud fra adresse</p>
-@using (Html.BeginForm("Index", "Lejligheders", FormMethod.Get))
+@if (SignInManager.IsSignedIn(User))
 {
-    @Html.TextBox("search")
-    <input type="submit" value="Søg" />
-}
-<br />
 
-<a href="~/Lejligheders/Index">Se hele listen igen</a>
-<br />
-<br />
+    <br />
+    <center>
+        <h1>Lejligheder</h1>
+        <br />
+        <a href="~/Lejligheders/Create">
+            <input type="submit" class="btn btn-primary btn-sm" id="Button1" value="Tilføj en ny lejlighed" />
+
+        </a>
+
+    </center>
+
+    <br />
+    <hr />
+    <p>Søg ud fra adresse</p>
+    @using (Html.BeginForm("Index", "Lejligheders", FormMethod.Get))
+    {
+        @Html.TextBox("search")
+        <input type="submit" value="Søg" />
+    }
+    <br />
+
+    <a href="~/Lejligheders/Index">Se hele listen igen</a>
+    <br />
+    <br />
 
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Adresse)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Count() == 0)
-        {
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td colspan="2" style="lighting-color:palevioletred">
-                    Ingen adresse med dette navn, prøv at tjekke for stavefejl
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Adresse)
+                </th>
+                <th></th>
             </tr>
-        }
-        else
-        {
-            @foreach (var item in Model)
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
             {
                 <tr>
-                    <td>
-                        @item.Adresse
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                       
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <td colspan="2" style="lighting-color:palevioletred">
+                        Ingen adresse med dette navn, prøv at tjekke for stavefejl
                     </td>
                 </tr>
             }
-        }
-    </tbody>
-</table>
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Adresse
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <br />
+    <br />
+
+    <center>
+        <h3>Du har ikke adgang til denne side</h3>
+
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+        </a>
+    </center>
+
+
+
+
+    <br />
+    <br />
+    <br />
+}

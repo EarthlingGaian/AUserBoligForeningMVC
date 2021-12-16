@@ -1,20 +1,51 @@
-﻿@model AUserBoligForeningMVC.Models.DokumentArkiv
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+@model AUserBoligForeningMVC.Models.DokumentArkiv
 
 @{
     ViewData["Title"] = "Index";
 }
-<br />
-<a href="~/DokumentArkivs/Index">
-    Tilbage Til Oversigt
-</a>
-<br />
-<center>
-    <h1>Indflytningspapir</h1>
-    <p>Her kan du se dit indflytningspapir, har du nogen spørgsmål er, du velkommen til at kontakte os</p>
-</center>
-<hr />
-<br />
-<embed src="~/img/@Model.IndflytningsPapir.ToString()" type="application/pdf" height="600px" width="100%">
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <br />
+    <a href="~/DokumentArkivs/Index">
+        Tilbage Til Oversigt
+    </a>
+    <br />
+    <center>
+        <h1>Indflytningspapir</h1>
+        <p>Her kan du se dit indflytningspapir, har du nogen spørgsmål er, du velkommen til at kontakte os</p>
+    </center>
+    <hr />
+    <br />
+    <embed src="~/img/@Model.IndflytningsPapir.ToString()" type="application/pdf" height="600px" width="100%">
 
 
 
+}
+else
+{
+    <br />
+    <br />
+
+    <center>
+        <h3>Du har ikke adgang til denne side</h3>
+
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+            <input type="submit" class="btn btn-primary btn-md" id="Button1" value="Login" />
+
+        </a>
+    </center>
+
+
+
+
+    <br />
+    <br />
+    <br />
+}

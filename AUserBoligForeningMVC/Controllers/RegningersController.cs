@@ -9,6 +9,7 @@ using AUserBoligForeningMVC.Data;
 using AUserBoligForeningMVC.Models;
 using System.Globalization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AUserBoligForeningMVC.Controllers
 {
@@ -30,10 +31,7 @@ namespace AUserBoligForeningMVC.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-      
             string mail = user?.Email;
-
-         
 
             List<Regninger> modelList = new List<Regninger>();
             var bookingsModel = await _context.bookings.Where(a => a.CurrentUserMail == mail).ToListAsync();
@@ -77,15 +75,17 @@ namespace AUserBoligForeningMVC.Controllers
 
             }
 
-            var regninger = await _context.regningers.Where(a => a.BeboerMail == mail).Where(a => search == null || a.Calendar.Contains(search) || a.Date.Contains(search)).ToListAsync();
+            var regninger = await _context.regningers.Where(a => a.BeboerMail == mail).Where(a => search == null 
+            || a.Calendar.Contains(search) || a.Date.Contains(search)).ToListAsync();
              
             return View(regninger);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdminIndex(string search)
         {             
-            return View(await _context.regningers.Where(a => a.BeboerMail.Contains(search) || search == null || a.Calendar.Contains(search) || a.Date.Contains(search)).ToListAsync());
+            return View(await _context.regningers.Where(a => a.BeboerMail.Contains(search) 
+            || search == null || a.Calendar.Contains(search) || a.Date.Contains(search)).ToListAsync());
         }
 
 
@@ -104,28 +104,6 @@ namespace AUserBoligForeningMVC.Controllers
                 return NotFound();
             }
 
-            return View(regninger);
-        }
-
-        // GET: Regningers/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Regningers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Regning,BeboerMail,Date,Calendar")] Regninger regninger)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(regninger);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
             return View(regninger);
         }
 

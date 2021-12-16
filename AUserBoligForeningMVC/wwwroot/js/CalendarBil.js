@@ -33,12 +33,9 @@ function openModal(date) { //event for save and cancel button
 function load() {
     window.localStorage.clear();
 
-    //get data from db -- data loaded in sourcearray which is defined in CalendarInex under scripts
+    //get data from db -- data loaded in sourcearray which is defined in FaellesBil under scripts
     var arrayLength = sourcearray.length;
     for (var i = 0; i < arrayLength; i++) {
-
-        //console.log(sourcearray[i]['date']);
-        //console.log(sourcearray[i]['title']);
 
         events.push({
             date: sourcearray[i]['date'],
@@ -126,16 +123,7 @@ function closeModal() {
 }
 
 function saveEvent() {
-    if (eventTitleInput.value) { //if user has typed some value save event 
-        eventTitleInput.classList.remove('error'); //removes error like from previus attempt
-
-        //puts the input value into list/array //pushing object into list/array
-        //events.push({ 
-        //    date: clicked,
-        //    title: eventTitleInput.value
-
-        //});
-
+    
         //Send the JSON array to Controller using AJAX.
         var data = {
 
@@ -161,20 +149,12 @@ function saveEvent() {
 
 
 
-        //localStorage.setItem('events', JSON.stringify(events)); //we have to use JSON.stringify() since we cant store a object in local storage
 
-    } else { //else give error
-        eventTitleInput.classList.add('error');
-
-    }
 }
 
 
 function deleteEvent() {
-    events = events.filter(e => e.date !== clicked); //gets all the dates in storage that is not the current modal(clicked day square)
-    localStorage.setItem('events', JSON.stringify(events)); //and therefor the date the user was on will not be saved in local storage only the other dates in events array/lst will
-    //Send the JSON array to Controller using AJAX.
-    //Send the JSON array to Controller using AJAX.
+   
   
     var data = {
 

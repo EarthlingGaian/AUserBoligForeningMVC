@@ -54,9 +54,6 @@ namespace AUserBoligForeningMVC.Controllers
 
                     model.LejeKontrakt.CopyTo(new FileStream(filePathLejeKontrakt, FileMode.Create));
 
-
-                  
-
                 }
                 if (model.IndflytningsPapir != null)
                 {
@@ -94,10 +91,7 @@ namespace AUserBoligForeningMVC.Controllers
             var userId = user?.Id;
             string mail = user?.Email;
 
-            var userData = _context.lejers.Where(a => a.Email == mail).FirstOrDefault();
-
-            
-            
+            var userData = await _context.lejers.Where(a => a.Email == mail).FirstOrDefaultAsync();
 
             return View(userData);
         }
@@ -151,7 +145,7 @@ namespace AUserBoligForeningMVC.Controllers
             var userId = user?.Id;
             string mail = user?.Email;
 
-            var bruger = _context.lejers.Where(a => a.Email == mail).FirstOrDefault();
+            var bruger = await _context.lejers.Where(a => a.Email == mail).FirstOrDefaultAsync();
 
             if (ModelState.IsValid)
             {
@@ -260,45 +254,8 @@ namespace AUserBoligForeningMVC.Controllers
             return View(model.Lejer);
         }
 
-        //// GET: Lejers/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var lejer = await _context.Lejer
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (lejer == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(lejer);
-        //}
-
-        //// GET: Lejers/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Lejers/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Fornavn,Efternavn,Adresse,PostNr,Email,TlfNr,By,Alder")] Lejer lejer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(lejer);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(lejer);
-        //}
+        
+       
 
         // GET: Lejers/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -403,6 +360,7 @@ namespace AUserBoligForeningMVC.Controllers
 
 
             //delete user
+            //_userManager.DeleteAsync(user).Wait();
             var user = await _userManager.FindByEmailAsync(lejer.Email.ToString());
             var logins = await _userManager.GetLoginsAsync(user);
             foreach (var login in logins)
