@@ -54,7 +54,8 @@ namespace AUserBoligForeningMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                if (DateTime.ParseExact(model.Date, "M/d/yyyy", CultureInfo.InvariantCulture) > DateTime.Now)
+                if (DateTime.ParseExact(model.Date, "M/d/yyyy", CultureInfo.InvariantCulture) > 
+                    DateTime.Now)
                 {
                     _context.Add(model);
                     await _context.SaveChangesAsync();

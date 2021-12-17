@@ -28,11 +28,14 @@ namespace AUserBoligForeningMVC.Controllers
             this.hostingEnvironment = hostingEnvironment;
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Lejers
         public async Task<IActionResult> Index(string search)
         {
 
-            return View(await _context.lejers.Where(a => a.Adresse.Contains(search) || search == null || a.Fornavn.Contains(search) || a.Email.Contains(search)).ToListAsync());
+            return View(await _context.lejers.Where(a => a.Adresse.Contains(search) ||
+            search == null || a.Fornavn.Contains(search) || a.Email.Contains(search)).ToListAsync());
         }
 
         public async Task<IActionResult> UploadDokumenter(int? id, DokumentArkivViewModel model)
@@ -165,16 +168,9 @@ namespace AUserBoligForeningMVC.Controllers
                     }
                     catch (DbUpdateConcurrencyException ex)
                     {
-                        TempData["message"] = $"Can not update : {ex.Message}";
-                        if (User.IsInRole("Admin"))
-                        {
-                            return RedirectToAction(nameof(Index));
-                        }
-                        else
-                        {
-                            return RedirectToAction(nameof(Profile));
-                        }    
-                        
+
+                        return RedirectToAction(nameof(Profile));
+    
                     }
                    
                 }
@@ -189,7 +185,7 @@ namespace AUserBoligForeningMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Profile));
             }
             return View(bruger);
         }
@@ -254,9 +250,9 @@ namespace AUserBoligForeningMVC.Controllers
             return View(model.Lejer);
         }
 
-        
-       
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Lejers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -277,6 +273,7 @@ namespace AUserBoligForeningMVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Lejer lejer)
         {
@@ -298,14 +295,9 @@ namespace AUserBoligForeningMVC.Controllers
                     catch (DbUpdateConcurrencyException ex)
                     {
                         TempData["message"] = $"Can not update : {ex.Message}";
-                        if (User.IsInRole("Admin"))
-                        {
-                            return RedirectToAction(nameof(Index));
-                        }
-                        else
-                        {
-                            return RedirectToAction(nameof(Profile));
-                        }
+                        
+                        return RedirectToAction(nameof(Index));
+                     
                     }
 
 
@@ -327,6 +319,7 @@ namespace AUserBoligForeningMVC.Controllers
         }
 
         // GET: Lejers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
