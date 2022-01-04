@@ -13,7 +13,7 @@ namespace AUserBoligForeningMVC.Data
             : base(options)
         {
         }
-        public DbSet<AUserBoligForeningMVC.Models.Lejer> Lejer { get; set; }
+       // public DbSet<AUserBoligForeningMVC.Models.Lejer> Lejer { get; set; }
 
 
     }

@@ -7,7 +7,8 @@
 @{
     ViewData["Title"] = "Register";
 }
-@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+@* Man skal være logget ind og være admin *@
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin")) 
 {
     <body>
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -19,18 +20,22 @@
                         <br />
                         <div class="card">
                             <div class="card-body">
+                                @* Card er en yderste box, hvor alt indenfor denne div kommer ind i boksen *@
 
+
+                                @* alt indenfor første række og første række indeholder kun billede *@
                                 <div class="row">
                                     <div class="col">
                                         <center>
                                             <img width="100" src="~/img/userProfileIcon.PNG" />
+                                            @*  width="100" er en størrelse *@
 
                                         </center>
 
                                     </div>
                                 </div>
 
-
+                                @* alt indenfor anden række og anden række indeholder kun tekst *@
                                 <div class="row">
                                     <div class="col">
                                         <center>
@@ -43,7 +48,7 @@
 
 
 
-
+                                @* alt indenfor tredje række og tredje række indeholder kun linje *@
                                 <div class="row">
                                     <div class="col">
                                         <hr />
@@ -51,19 +56,22 @@
                                     </div>
                                 </div>
 
+
+                                @* alt indenfor 4 række og 4 række indeholder kun email *@
                                 <div class="row">
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label asp-for="Input.Email"></label>
-                                            <input asp-for="Input.Email" class="form-control" placeholder="Fornavn+Alder@UNIK.com" />
-                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                            <label asp-for="Input.Email"></label>  @* tager navn fra modellen Input som indeholder property kadet Email *@
+                                            <input asp-for="Input.Email" class="form-control" placeholder="Fornavn+Alder@UNIK.com" /> @* placeholder er bare skygge tekst *@
+                                            <span asp-validation-for="Input.Email" class="text-danger"></span>@* validation hvis email skal have noget specifikt krav opflydt fx skal indeholde @, noget med stor osv. *@
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
 
+                                <div class="row">
+                                    @* der er 12 kasser, der bliver delt op i to, så hver clas for 6 hver *@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label asp-for="Input.Password"></label>

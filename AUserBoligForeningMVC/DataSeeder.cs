@@ -12,7 +12,7 @@ namespace AUserBoligForeningMVC
 {
     public class DataSeeder
     {
-        private ApplicationDbContext _context;
+        private ApplicationDbContext _context; //identity servers db
         public DataSeeder(ApplicationDbContext contezt)
         {
             _context = contezt;
@@ -37,8 +37,8 @@ namespace AUserBoligForeningMVC
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
-            var hashed = new PasswordHasher<IdentityUser>();
-            var hashedPassword = hashed.HashPassword(user, "admin");
+            var hashed = new PasswordHasher<IdentityUser>(); //numeric value of a fixed length that uniquely identifies data
+            var hashedPassword = hashed.HashPassword(user, "admin"); //bruger kode kan være admin
 
             user.PasswordHash = hashedPassword;
 
@@ -56,7 +56,7 @@ namespace AUserBoligForeningMVC
 
             var HasSuperUser = _context.Users.Any(users => users.NormalizedUserName == user.UserName); //Note user is from the creation of the superuser above and we ask here if it is created
            //user = _context.Users.FirstOrDefault(users => users.NormalizedUserName == user.UserName);
-            var roles = _context.Roles.FirstOrDefault(roles => roles.Name == "Admin");
+           // var roles = _context.Roles.FirstOrDefault(roles => roles.Name == "Admin");
 
             if (!HasSuperUser)
             {

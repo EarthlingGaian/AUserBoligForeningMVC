@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace AUserBoligForeningMVC
 {
+    //definere applikationens adfærd
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -62,19 +63,21 @@ namespace AUserBoligForeningMVC
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error"); //bruger til at håndtere evt. fejl
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             dataSeeder.SeedSuperUser().Wait();
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(); //middelware for at få statiske filer fra www.root folderen
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthentication();//middelware forbinder anmodningen med en bruger.
+            app.UseAuthorization();//middelware bekræfter om brugeren har tilladelse den givne request, 
+            //og hvis brigeren har tilladelse sender den requesten videre til mvc middelwaren for,
+            //at give tilladelse til, at videre et svar til burgeren.
 
             app.UseEndpoints(endpoints =>
             {
